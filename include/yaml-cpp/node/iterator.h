@@ -28,4 +28,16 @@ struct iterator_value : public Node, std::pair<Node, Node> {
 }
 }
 
+namespace std {
+  template <> struct tuple_size<YAML::detail::iterator_value>
+      : std::integral_constant<std::size_t, 2> {};
+
+  template <> struct tuple_element<0, YAML::detail::iterator_value> {
+    using type = YAML::detail::iterator_value::first_type;
+  };
+  template <> struct tuple_element<1, YAML::detail::iterator_value> {
+    using type = YAML::detail::iterator_value::second_type;
+  };
+}
+
 #endif  // VALUE_ITERATOR_H_62B23520_7C8E_11DE_8A39_0800200C9A66

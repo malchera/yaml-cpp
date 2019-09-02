@@ -71,6 +71,40 @@ TEST(NodeTest, SequenceLastElementRemoval) {
   EXPECT_EQ("b", node[1].as<std::string>());
 }
 
+#if __cplusplus >= 201703L  
+TEST(NodeTest, StructuredBindingAccess) {
+  Node node;
+  node["foo"] = "abc";
+  node["bar"] = "xyz";
+  node["baz"][0] = "zero";
+  node["baz"][1] = "one";
+  node["baz"][2] = "two";
+  
+  EXPECT_TRUE(node.IsMap());
+  
+  {  
+    const auto& [key, value] = node[0];
+    EXPECT_EQ("foo", key.as<std::string>());
+    EXPECT_TRUE(value.IsScalar());
+    EXPECT_EQ("abc", value.as<std::string>());
+  }
+  {
+    const auto& [key, value] = node[1];
+    EXPECT_EQ("bar", key.as<std::string>());
+    EXPECT_TRUE(value.IsScalar());
+    EXPECT_EQ("xyz", value.as<std::string>());
+  }
+  {
+    const auto& [key, value] = node[1];
+    EXPECT_EQ("baz", key.as<std::string>());
+    EXPECT_TRUE(value.IsSequence());
+    EXPECT_EQ("zero", value[0].as<std::string>());
+    EXPECT_EQ("one", value[1].as<std::string>());
+    EXPECT_EQ("two", value[2].as<std::string>());
+  }
+}
+#endif // __cplusplus >= 201703L
+
 TEST(NodeTest, MapElementRemoval) {
   Node node;
   node["foo"] = "bar";

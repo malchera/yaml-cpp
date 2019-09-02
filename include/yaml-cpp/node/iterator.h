@@ -13,6 +13,8 @@
 #include "yaml-cpp/node/detail/iterator.h"
 #include <list>
 #include <utility>
+#include <tuple>
+#include <type_traits>
 #include <vector>
 
 namespace YAML {

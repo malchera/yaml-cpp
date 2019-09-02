@@ -70,7 +70,8 @@ TEST(NodeTest, SequenceLastElementRemoval) {
   EXPECT_EQ("a", node[0].as<std::string>());
   EXPECT_EQ("b", node[1].as<std::string>());
 }
-  
+
+#if __cplusplus >= 201703L  
 TEST(NodeTest, StructuredBindingAccess) {
   Node node;
   node["foo"] = "abc";
@@ -102,6 +103,7 @@ TEST(NodeTest, StructuredBindingAccess) {
     EXPECT_EQ("two", value[2].as<std::string>());
   }
 }
+#endif // __cplusplus >= 201703L
 
 TEST(NodeTest, MapElementRemoval) {
   Node node;
